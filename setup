@@ -1,1 +1,74 @@
-$ sudo apt install rkhunter -y 
+$ sudo apt install rkhunter -y
+
+Open the configuration file /etc/rkhunter.conf, and make the changes as shown below.
+$ sudo xed /etc/rkhunter.conf
+
+UPDATE_MIRRORS=0 to UPDATE_MIRRORS=1
+MIRRORS_MODE=1 to MIRRORS_MODE=0
+WEB_CMD="/bin/false" to WEB_CMD=""
+
+// ubuntu 20
+SCRIPTWHITELIST=/usr/bin/egrep to SCRIPTWHITELIST=/bin/egrep
+SCRIPTWHITELIST=/usr/bin/fgrep to SCRIPTWHITELIST=/bin/fgrep
+
+$ xed /etc/default/rkhunter.conf
+
+Enable regular scan and updates with cron
+RKHunter script is installed under under cron.daily directory for regular scan and updates. the script is therefore executed everyday by Cron.
+
+Edit the /etc/default/rkhunter.conf and make the following changes.
+
+Enable rkhunter scan checks to run daily by setting the value of CRON_DAILY_RUN to “true”.
+
+CRON_DAILY_RUN="true"
+
+Set the value of CRON_DB_UPDATE to true to enable rkhunter weekly database updates.
+
+CRON_DB_UPDATE="true"
+
+Set the value of to APT_AUTOGEN to true to enable automatic database updates. This ensures that rkhunter --propupd is run automatically after software updates in order to reduce false positives.
+
+APT_AUTOGEN="true"
+
+
+After the changes above, check rkhunter for any configuration errors.
+$ sudo rkhunter -C
+
+
+
+Set the Security Baseline for your system
+RKHhunter compares various current file properties of various commands within the system against those it has previously stored. To update rkhunter data file of stored values with the current values, run the rkhunter with --propupd option.
+
+# sudo rkhunter --propupd
+
+$ sudo rkhunter --versioncheck
+
+$ sudo rkhunter --update
+
+Quikly check system files.
+$ sudo rkhunter --check
+
+getting warnings as shown below 
+/usr/bin/lwp-request     [ Warning ]
+/bin/which               [ Warning ]
+
+rkhunter needs to know what package manager you are using.
+
+Create or edit /etc/rkhunter.conf.local and add the following line:
+
+PKGMGR=DPKG
+If you are not on Debian or Ubuntu, then change DPKG for your actual package manager.
+
+This way, rkhunter will know to expect those executables to be scripts, and not flag the false positive.
+
+It will ensure that if the files are tampered with, then a new positive result will show.
+
+
+Confirm log result  details.
+
+All results have been written to the log file: /var/log/rkhunter.log
+
+One or more warnings have been found while checking the system.
+Please check the log file (/var/log/rkhunter.log)
+
+$ sudo xed /var/log/rkhunter.log
