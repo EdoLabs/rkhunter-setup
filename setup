@@ -110,3 +110,11 @@ Once done, save the configuration file and check for any misconfigurations as sh
 You can now be able to receive emails in case any threat is found on your system. See the example mail below.
 
 
+ref
+https://kifarunix.com/how-to-install-rkhunter-rootkit-hunter-on-ubuntu-18-04/
+
+https://www.linuxquestions.org/questions/linux-security-4/%5Bsolved%5D-rkhunter-no-long-updating-under-mx-linux-4175638503/
+
+https://unix.stackexchange.com/questions/373718/rkhunter-gives-me-a-warning-for-usr-bin-lwp-request-what-should-i-do-debi
+
+
