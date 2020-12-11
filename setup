@@ -72,3 +72,41 @@ One or more warnings have been found while checking the system.
 Please check the log file (/var/log/rkhunter.log)
 
 $ sudo xed /var/log/rkhunter.log
+
+As you can see above, there are some warnings for example SSH root access is allowed. You can the remediate whatever the issue found on your system by rkhunter.
+
+To avoid having to press ENTER for every check, you can pass the --sk or --skip-keypress option.
+
+# rkhunter --check --sk
+To display warning messages only, use the --rwo or --report-warnings-only option.
+
+# rkhunter --check --rwo
+RKHunter log file is:
+
+/var/log/rkhunter.log
+You also noticed that hidden files and directories warnings are given. To avoid these warnings, you can reconfigure rkhunter to ignore these files via whitelisting. For example in my test, i found this warning;
+
+
+Warning: Hidden directory found: /etc/.java
+To whitliest this file, open the rkhunter config file and uncomment the line #ALLOWHIDDENDIR=/etc/.java such that it looks like;
+
+
+ALLOWHIDDENDIR=/etc/.java
+
+If you got other files, you can uncomment them in the rkhunter configuration file as shown above.
+
+Email Notifications
+You may also want to send the results via Email in case a threat is found on your system. To do this, you need to edit rkhunter configuration file and set a value of MAIL-ON-WARNING to your email address.
+
+# vim /etc/rkhunter.conf
+MAIL-ON-WARNING=username@domain
+Replace username@domain with your email address
+
+You also set the email command to use.
+
+MAIL_CMD=mail -s "[rkhunter] Warnings found for ${HOST_NAME}"
+Once done, save the configuration file and check for any misconfigurations as shown above.
+
+You can now be able to receive emails in case any threat is found on your system. See the example mail below.
+
+
